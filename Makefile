@@ -5,3 +5,8 @@ build:
 
 run:
 	go run cmd/$(PROJECT_NAME)/main.go
+
+test:
+	go test ./... -v
+
+.PHONY: run build test
