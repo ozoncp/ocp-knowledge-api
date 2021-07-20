@@ -11,11 +11,16 @@ func BatchSlice(in []int, batchSize int) ([][]int, error) {
 	}
 
 	inSize := len(in)
-	if inSize < batchSize {
-		return nil, errors.New("slice size less than batch size")
+	if inSize <= batchSize {
+		batchedSlice := append([]int{}, in...)
+		return [][]int{batchedSlice}, nil
 	}
 
-	batchCount := (inSize / batchSize) + 1
+	batchCount := inSize / batchSize
+	if inSize%batchSize > 0 {
+		batchCount++
+	}
+
 	batchedSlice := make([][]int, 0, batchCount)
 
 	for i := 0; i < inSize; i += batchSize {
@@ -25,7 +30,8 @@ func BatchSlice(in []int, batchSize int) ([][]int, error) {
 			end = inSize
 		}
 
-		batchedSlice = append(batchedSlice, in[i:end])
+		batch := append([]int{}, in[i:end]...)
+		batchedSlice = append(batchedSlice, batch)
 	}
 
 	return batchedSlice, nil
@@ -52,7 +58,7 @@ func FilterSlice(in []int) ([]int, error) {
 		return nil, errors.New("input slice is nil")
 	}
 
-	filterList := map[int]bool {
+	filterList := map[int]bool{
 		1: true,
 		3: true,
 	}
