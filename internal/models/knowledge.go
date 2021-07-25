@@ -2,6 +2,7 @@ package models
 
 import "fmt"
 
+// Knowledge student's knowledge information.
 type Knowledge struct {
 	Id     uint64
 	UserId uint64
