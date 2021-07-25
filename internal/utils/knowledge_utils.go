@@ -6,7 +6,7 @@ import (
 	"github.com/ozoncp/ocp-knowledge-api/internal/models"
 )
 
-// Batch splits input slice by passed batchSize.
+// BatchKnowledge splits input slice by passed batchSize.
 func BatchKnowledge(in []models.Knowledge, batchSize int) ([][]models.Knowledge, error) {
 	if in == nil {
 		return nil, errors.New("input slice is nil")
