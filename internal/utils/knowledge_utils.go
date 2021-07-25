@@ -8,15 +8,15 @@ import (
 
 // BatchKnowledge splits input slice by passed batchSize.
 func BatchKnowledge(in []models.Knowledge, batchSize int) ([][]models.Knowledge, error) {
-	if in == nil {
-		return nil, errors.New("input slice is nil")
-	}
+	inSize := len(in)
 
+	if inSize == 0 {
+		return nil, errors.New("input slice is nil or empty")
+	}
 	if batchSize <= 0 {
 		return nil, errors.New("batch size less or equal zero")
 	}
 
-	inSize := len(in)
 	batchCount := inSize / batchSize
 	if inSize%batchSize > 0 {
 		batchCount++
