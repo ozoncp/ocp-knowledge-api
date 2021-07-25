@@ -104,6 +104,14 @@ func TestMapKnowledge(t *testing.T) {
 			wantErr: true,
 		},
 		{
+			name: "input slice has non unique key",
+			args: []models.Knowledge{
+				{Id: 1, UserId: 2, Topic: 3, Text: "test1"},
+				{Id: 1, UserId: 2, Topic: 3, Text: "test1"},
+			},
+			wantErr: true,
+		},
+		{
 			name: "input slice empty",
 			args: []models.Knowledge{
 				{Id: 1, UserId: 2, Topic: 3, Text: "test1"},

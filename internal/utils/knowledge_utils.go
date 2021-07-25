@@ -47,6 +47,10 @@ func MapKnowledge(in []models.Knowledge) (map[uint64]models.Knowledge, error) {
 	result := make(map[uint64]models.Knowledge, len(in))
 
 	for _, v := range in {
+		if _, ok := result[v.Id]; ok {
+			return nil, errors.New("key exists in map")
+		}
+
 		result[v.Id] = v
 	}
 
