@@ -22,7 +22,7 @@ func NewFlusher(chunkSize int, repo repo.Repo) Flusher {
 	}
 }
 
-func (f flusher) Flush(knowledge  []models.Knowledge) ([]models.Knowledge, error) {
+func (f flusher) Flush(knowledge []models.Knowledge) ([]models.Knowledge, error) {
 	chunks, err := utils.ChunkKnowledge(knowledge, f.chunkSize)
 	if err != nil {
 		return nil, err
