@@ -22,15 +22,15 @@ func NewFlusher(chunkSize int, repo repo.Repo) Flusher {
 	}
 }
 
-func (f flusher) Flush(knowledgies []models.Knowledge) ([]models.Knowledge, error) {
-	chunks, err := utils.ChunkKnowledge(knowledgies, f.chunkSize)
+func (f flusher) Flush(knowledge  []models.Knowledge) ([]models.Knowledge, error) {
+	chunks, err := utils.ChunkKnowledge(knowledge, f.chunkSize)
 	if err != nil {
 		return nil, err
 	}
 
 	for idx := range chunks {
-		if err := f.entityRepo.AddKnowledgies(chunks[idx]); err != nil {
-			return knowledgies[idx:], err
+		if err := f.entityRepo.AddKnowledge(chunks[idx]); err != nil {
+			return knowledge[idx:], err
 		}
 	}
 
