@@ -36,7 +36,7 @@ var _ = Describe("Flusher", func() {
 				Times(2).
 				Return(nil)
 
-			res, err := fl.Flush([]models.Knowledge{
+			res := fl.Flush([]models.Knowledge{
 				{
 					Id:     1,
 					UserId: 1,
@@ -58,7 +58,6 @@ var _ = Describe("Flusher", func() {
 			})
 
 			Expect(res).Should(BeNil())
-			Expect(err).ShouldNot(HaveOccurred())
 		})
 
 		It("Flush 1 items - Success", func() {
@@ -67,7 +66,7 @@ var _ = Describe("Flusher", func() {
 				Times(1).
 				Return(nil)
 
-			res, err := fl.Flush([]models.Knowledge{
+			res := fl.Flush([]models.Knowledge{
 				{
 					Id:     1,
 					UserId: 1,
@@ -77,16 +76,13 @@ var _ = Describe("Flusher", func() {
 			})
 
 			Expect(res).Should(BeNil())
-			Expect(err).ShouldNot(HaveOccurred())
 		})
 	})
 
 	Context("Flusher - Errors", func() {
 		It("Flush 0 items - Expecting error", func() {
-			res, err := fl.Flush([]models.Knowledge{})
-
-			Expect(res).Should(BeNil())
-			Expect(err).Should(HaveOccurred())
+			res := fl.Flush([]models.Knowledge{})
+			Expect(res).Should(BeEquivalentTo([]models.Knowledge{}))
 		})
 
 		It("Error occured during adding knowledge", func() {
@@ -103,10 +99,9 @@ var _ = Describe("Flusher", func() {
 					Text:   "123",
 				},
 			}
-			res, err := fl.Flush(entities)
+			res := fl.Flush(entities)
 
 			Expect(res).Should(BeEquivalentTo(entities))
-			Expect(err).Should(HaveOccurred())
 		})
 	})
 })
