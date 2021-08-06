@@ -7,10 +7,10 @@ import (
 	"github.com/ozoncp/ocp-knowledge-api/internal/models"
 )
 
-func TestBatchKnowledge(t *testing.T) {
+func TestChunkKnowledge(t *testing.T) {
 	type args struct {
 		in        []models.Knowledge
-		batchSize int
+		chunkSize int
 	}
 	tests := []struct {
 		name    string
@@ -19,24 +19,24 @@ func TestBatchKnowledge(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "batch size negative value",
-			args:    args{batchSize: -1},
+			name:    "chunk size negative value",
+			args:    args{chunkSize: -1},
 			wantErr: true,
 		},
 		{
-			name:    "batch size zero value",
-			args:    args{batchSize: 0},
+			name:    "chunk size zero value",
+			args:    args{chunkSize: 0},
 			wantErr: true,
 		},
 		{
 			name:    "input slice nil",
-			args:    args{batchSize: 1},
+			args:    args{chunkSize: 1},
 			wantErr: true,
 		},
 		{
-			name: "batch size 1",
+			name: "chunk size 1",
 			args: args{
-				batchSize: 1,
+				chunkSize: 1,
 				in: []models.Knowledge{
 					{Id: 1, UserId: 2, Topic: 3, Text: "test1"},
 					{Id: 4, UserId: 5, Topic: 6, Text: "test2"},
@@ -50,9 +50,9 @@ func TestBatchKnowledge(t *testing.T) {
 			},
 		},
 		{
-			name: "batch size 2",
+			name: "chunk size 2",
 			args: args{
-				batchSize: 2,
+				chunkSize: 2,
 				in: []models.Knowledge{
 					{Id: 1, UserId: 2, Topic: 3, Text: "test1"},
 					{Id: 2, UserId: 5, Topic: 6, Text: "test2"},
@@ -75,13 +75,13 @@ func TestBatchKnowledge(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := BatchKnowledge(tt.args.in, tt.args.batchSize)
+			got, err := ChunkKnowledge(tt.args.in, tt.args.chunkSize)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("Batch() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("TestChunkKnowledge() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Batch() got = %v, want %v", got, tt.want)
+				t.Errorf("TestChunkKnowledge() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -127,11 +127,11 @@ func TestMapKnowledge(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := MapKnowledge(tt.args)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("Kek() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("TestMapKnowledge() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Kek() got = %v, want %v", got, tt.want)
+				t.Errorf("TestMapKnowledge() got = %v, want %v", got, tt.want)
 			}
 		})
 	}

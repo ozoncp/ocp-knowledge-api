@@ -6,36 +6,36 @@ import (
 	"github.com/ozoncp/ocp-knowledge-api/internal/models"
 )
 
-// BatchKnowledge splits input slice by passed batchSize.
-func BatchKnowledge(in []models.Knowledge, batchSize int) ([][]models.Knowledge, error) {
+// ChunkKnowledge splits input slice by passed chunkSize.
+func ChunkKnowledge(in []models.Knowledge, chunkSize int) ([][]models.Knowledge, error) {
 	inSize := len(in)
 
 	if inSize == 0 {
 		return nil, errors.New("input slice is nil or empty")
 	}
-	if batchSize <= 0 {
-		return nil, errors.New("batch size less or equal zero")
+	if chunkSize <= 0 {
+		return nil, errors.New("chunk size less or equal zero")
 	}
 
-	batchCount := inSize / batchSize
-	if inSize%batchSize > 0 {
-		batchCount++
+	chunkCount := inSize / chunkSize
+	if inSize%chunkSize > 0 {
+		chunkCount++
 	}
 
-	batchedSlice := make([][]models.Knowledge, 0, batchCount)
+	chunkedSlice := make([][]models.Knowledge, 0, chunkCount)
 
-	for i := 0; i < inSize; i += batchSize {
-		end := i + batchSize
+	for i := 0; i < inSize; i += chunkSize {
+		end := i + chunkSize
 
 		if end > inSize {
 			end = inSize
 		}
 
-		batch := append([]models.Knowledge{}, in[i:end]...)
-		batchedSlice = append(batchedSlice, batch)
+		chunk := append([]models.Knowledge{}, in[i:end]...)
+		chunkedSlice = append(chunkedSlice, chunk)
 	}
 
-	return batchedSlice, nil
+	return chunkedSlice, nil
 }
 
 // MapKnowledge converts slice of Knowledge to map of Knowledge where Knowledge.Id is key of map.
