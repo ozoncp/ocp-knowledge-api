@@ -47,6 +47,7 @@ func (s *saver) init() {
 			case <-ticker.C:
 				s.entities = s.flusher.Flush(s.entities)
 			case <-s.closeCh:
+				s.flusher.Flush(s.entities)
 				return
 			}
 		}
