@@ -1,0 +1,238 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/ocp-knowledge-api/ocp-knowledge-api.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/knowledge": {
+      "get": {
+        "operationId": "OcpKnowledgeApi_ListKnowledgeV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiListKnowledgeV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "OcpKnowledgeApi"
+        ]
+      },
+      "post": {
+        "operationId": "OcpKnowledgeApi_CreateKnowledgeV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiCreateKnowledgeV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiCreateKnowledgeV1Request"
+            }
+          }
+        ],
+        "tags": [
+          "OcpKnowledgeApi"
+        ]
+      }
+    },
+    "/v1/knowledge/{id}": {
+      "get": {
+        "operationId": "OcpKnowledgeApi_DescribeKnowledgeV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiDescribeKnowledgeV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "OcpKnowledgeApi"
+        ]
+      },
+      "delete": {
+        "operationId": "OcpKnowledgeApi_RemoveKnowledgeV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiRemoveKnowledgeV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "OcpKnowledgeApi"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiCreateKnowledgeV1Request": {
+      "type": "object",
+      "properties": {
+        "knowledge": {
+          "$ref": "#/definitions/apiKnowledge"
+        }
+      }
+    },
+    "apiCreateKnowledgeV1Response": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "apiDescribeKnowledgeV1Response": {
+      "type": "object",
+      "properties": {
+        "knowledge": {
+          "$ref": "#/definitions/apiKnowledge"
+        }
+      }
+    },
+    "apiKnowledge": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "topic": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "apiListKnowledgeV1Response": {
+      "type": "object",
+      "properties": {
+        "knowledge": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiKnowledge"
+          }
+        }
+      }
+    },
+    "apiRemoveKnowledgeV1Response": {
+      "type": "object",
+      "properties": {
+        "isRemoved": {
+          "type": "boolean"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
