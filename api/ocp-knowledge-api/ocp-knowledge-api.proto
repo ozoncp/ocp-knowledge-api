@@ -1,0 +1,73 @@
+syntax="proto3";
+
+import "google/api/annotations.proto";
+
+package ocp.knowledge.api;
+
+option go_package = "github.com/ozoncp/ocp-knowledge-api/pkg/ocp-knowledge-api;ocp_knowledge_api";
+
+service OcpKnowledgeApi {
+  rpc CreateKnowledgeV1(CreateKnowledgeV1Request) returns (CreateKnowledgeV1Response) {
+    option (google.api.http) = {
+      post: "/v1/knowledge"
+      body: "*"
+    };
+  }
+
+  rpc DescribeKnowledgeV1(DescribeKnowledgeV1Request) returns (DescribeKnowledgeV1Response) {
+    option (google.api.http) = {
+      get: "/v1/knowledge/{id}"
+    };
+  }
+
+  rpc ListKnowledgeV1(ListKnowledgeV1Request) returns (ListKnowledgeV1Response) {
+    option (google.api.http) = {
+      get: "/v1/knowledge"
+    };
+  }
+
+  rpc RemoveKnowledgeV1(RemoveKnowledgeV1Request) returns (RemoveKnowledgeV1Response) {
+    option (google.api.http) = {
+      delete: "/v1/knowledge/{id}"
+    };
+  }
+}
+
+message Knowledge {
+  uint64 userId = 1;
+  uint64 topic = 2;
+  string text = 3;
+}
+
+message CreateKnowledgeV1Request {
+    Knowledge knowledge = 1;
+}
+
+message CreateKnowledgeV1Response {
+  uint64 Id = 1;
+}
+
+message DescribeKnowledgeV1Request {
+  uint64 id = 1;
+}
+
+message DescribeKnowledgeV1Response {
+  Knowledge knowledge = 1;
+}
+
+message ListKnowledgeV1Request {
+  uint64 limit = 1;
+  uint64 offset = 2;
+}
+
+message ListKnowledgeV1Response {
+  repeated Knowledge knowledge = 1;
+}
+
+message RemoveKnowledgeV1Request {
+  uint64 id = 1;
+}
+
+message RemoveKnowledgeV1Response {
+  bool isRemoved = 1;
+}
