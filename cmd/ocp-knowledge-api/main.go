@@ -8,7 +8,10 @@ import (
 	"net/http"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	_ "github.com/jackc/pgx/v4/stdlib"
+	"github.com/jmoiron/sqlx"
 	api "github.com/ozoncp/ocp-knowledge-api/internal/api"
+	"github.com/ozoncp/ocp-knowledge-api/internal/repo"
 	server "github.com/ozoncp/ocp-knowledge-api/pkg/ocp-knowledge-api"
 	"google.golang.org/grpc"
 )
@@ -35,13 +38,25 @@ func runGrpcServer() error {
 	}
 
 	s := grpc.NewServer()
-	server.RegisterOcpKnowledgeApiServer(s, api.NewKnowledgeApi())
+	server.RegisterOcpKnowledgeApiServer(s, api.NewKnowledgeApi(initRepo()))
 
 	if err := s.Serve(listen); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 
 	return nil
+}
+
+func initRepo() repo.KnowledgeRepo {
+	dsn := "postgres://admin:admin@localhost:5432/knowledge_db?sslmode=disable"
+	db, err := sqlx.Connect("pgx", dsn)
+	if err != nil {
+		log.Fatalf("Unable to establish connection: %v\n", err)
+	}
+
+	log.Printf("Connection to database has been established.")
+
+	return repo.NewRepo(db)
 }
 
 func runGrpcGateway() {

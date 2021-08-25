@@ -44,6 +44,7 @@ build: .vendor-proto .generate .build
 		go build -o bin/$(PROJECT_NAME) cmd/$(PROJECT_NAME)/main.go
 
 .PHONY: deps
+deps:
 	ls go.mod || go mod init github.com/ozoncp/ocp-knowledge-api
 	go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 	go get -u github.com/golang/protobuf/proto
@@ -52,3 +53,9 @@ build: .vendor-proto .generate .build
 	go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
 	go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+	go install github.com/pressly/goose/v3/cmd/goose
+	go install github.com/golang/mock/mockgen@v1.6.0
+
+.PHONY: migrate
+migrate:
+	 goose -s -dir ./migrations postgres "postgres://admin:admin@localhost:5432/requirement_db?sslmode=disable" up

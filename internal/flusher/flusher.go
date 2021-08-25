@@ -14,10 +14,10 @@ type Flusher interface {
 
 type flusher struct {
 	chunkSize  int
-	entityRepo repo.Repo
+	entityRepo repo.KnowledgeRepo
 }
 
-func NewFlusher(chunkSize int, repo repo.Repo) Flusher {
+func NewFlusher(chunkSize int, repo repo.KnowledgeRepo) Flusher {
 	return &flusher{
 		chunkSize:  chunkSize,
 		entityRepo: repo,
@@ -32,7 +32,7 @@ func (f flusher) Flush(knowledge []models.Knowledge) []models.Knowledge {
 	}
 
 	for idx := range chunks {
-		if err := f.entityRepo.AddKnowledge(chunks[idx]); err != nil {
+		if err := f.entityRepo.AddKnowledges(chunks[idx]); err != nil {
 			log.Println(err)
 			return knowledge[idx:]
 		}

@@ -4,10 +4,10 @@ import "fmt"
 
 // Knowledge student's knowledge information.
 type Knowledge struct {
-	Id     uint64
-	UserId uint64
-	Topic  uint64
-	Text   string
+	Id     uint64 `db:"id"`
+	UserId uint64 `db:"user_id"`
+	Topic  uint64 `db:"topic"`
+	Text   string `db:"text"`
 }
 
 // String prints values of all fields.

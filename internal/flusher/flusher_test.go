@@ -14,14 +14,14 @@ import (
 
 var _ = Describe("Flusher", func() {
 	var (
-		mockRepo *mocks.MockRepo
+		mockRepo *mocks.MockKnowledgeRepo
 		mockCtrl *gomock.Controller
 		fl       flusher.Flusher
 	)
 
 	BeforeEach(func() {
 		mockCtrl = gomock.NewController(GinkgoT())
-		mockRepo = mocks.NewMockRepo(mockCtrl)
+		mockRepo = mocks.NewMockKnowledgeRepo(mockCtrl)
 		fl = flusher.NewFlusher(2, mockRepo)
 	})
 
@@ -32,7 +32,7 @@ var _ = Describe("Flusher", func() {
 	Context("Flusher - Happy paths", func() {
 		It("Flush 3 items - Success", func() {
 			mockRepo.EXPECT().
-				AddKnowledge(gomock.Any()).
+				AddKnowledges(gomock.Any()).
 				Times(2).
 				Return(nil)
 
@@ -62,7 +62,7 @@ var _ = Describe("Flusher", func() {
 
 		It("Flush 1 items - Success", func() {
 			mockRepo.EXPECT().
-				AddKnowledge(gomock.Any()).
+				AddKnowledges(gomock.Any()).
 				Times(1).
 				Return(nil)
 
@@ -87,7 +87,7 @@ var _ = Describe("Flusher", func() {
 
 		It("Error occured during adding knowledge", func() {
 			mockRepo.EXPECT().
-				AddKnowledge(gomock.Any()).
+				AddKnowledges(gomock.Any()).
 				Times(1).
 				Return(errors.New("error"))
 
